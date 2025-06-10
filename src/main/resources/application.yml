@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: auth-nutri
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/auth-nutri
+    username: root
+    password: senha123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+
+  auth-nutri:
+    security:
+      secret: palavra-secreta

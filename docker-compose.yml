@@ -1,0 +1,29 @@
+services:
+  mysql:
+    image: mysql:latest
+    container_name: auth-nutri-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: senha123
+      MYSQL_DATABASE: auth-nutri
+      #MYSQL_USER: root
+      # MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306" # Expõe a porta para conexão externa (Laravel local)
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: auth-nutri-phpmyadmin
+    depends_on:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - "8081:80" # Acessível em http://localhost:8080
+    restart: unless-stopped
+
+volumes:
+  mysql_data:

@@ -1,6 +1,6 @@
 package com.auth.auth_nutri.config.security;
 
-import com.auth.auth_nutri.repository.UserRepository;
+import com.auth.auth_nutri.service.auth.AuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +20,8 @@ public class SecurityFilter extends OncePerRequestFilter {
     private TokenService tokenService;
 
     @Autowired
-    private UserRepository repository;
+    private AuthService authService;
+
 
 
     @Override
@@ -30,7 +31,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         if(token != null) {
             var email = tokenService.validateToken(token);
-            UserDetails user = repository.findByEmail(email);
+            UserDetails user = authService.loadUserByUsername(email);
 
             var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);

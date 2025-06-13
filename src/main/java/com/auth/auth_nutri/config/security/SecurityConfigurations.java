@@ -1,5 +1,6 @@
 package com.auth.auth_nutri.config.security;
 
+import com.auth.auth_nutri.service.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,10 @@ public class SecurityConfigurations {
     @Autowired
     private SecurityFilter securityFilter;
 
+    @Autowired
+    private AuthService authService;
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -41,13 +46,13 @@ public class SecurityConfigurations {
     private void  configurarPublicas(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth){
         auth
             .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-            .requestMatchers(HttpMethod.POST, "medicos/register").permitAll()
-            .requestMatchers(HttpMethod.POST, "pacientes/register");
+            .requestMatchers(HttpMethod.POST, "/medicos/register").permitAll()
+            .requestMatchers(HttpMethod.POST, "/pacientes/register").permitAll();
     }
 
     private void configurarAdmin(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth){
         auth
-             .requestMatchers(HttpMethod.POST, "/medicos/**").hasRole("ADMIN")
+             .requestMatchers(HttpMethod.POST, "/medicos/admin/**").hasRole("ADMIN")
              .requestMatchers("/admin/**").hasRole("ADMIN")
              .requestMatchers(HttpMethod.GET, "/**").hasRole("ADMIN");
     }

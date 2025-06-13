@@ -20,6 +20,6 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
 
-  auth-nutri:
-    security:
-      secret: palavra-secreta
+auth-nutri:
+  security:
+    secret: palavra-secreta

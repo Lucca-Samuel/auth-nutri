@@ -25,6 +25,7 @@ public class TokenService {
             String token = JWT.create()
                     .withIssuer("auth-nutri")
                     .withSubject(user.getEmail())
+                    .withClaim("roles", "ROLE_" + user.getRole().name())
                     .withExpiresAt(expiratorTime())
                     .sign(algorithm);
             return token;

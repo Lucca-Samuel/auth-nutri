@@ -13,21 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/medicos")
+@RequestMapping("/medico")
 public class MedicoController {
     @Autowired
     private MedicoService service;
 
-    @PostMapping("/register")
-    public ResponseEntity<MedicoResponse> register(@RequestBody @Valid MedicoDTO data){
-        MedicoResponse response = this.service.createMedico(data);
-//        return new ResponseEntity<>(response, HttpStatus.CREATED);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
     @GetMapping("/all")
-    public ResponseEntity<List<Medico>> findall(){
-       List<Medico> medicos = this.service.findAll();
+    public ResponseEntity<List<MedicoResponse>> findall(){
+       List<MedicoResponse> medicos = this.service.findAll();
        return new ResponseEntity<>(medicos, HttpStatus.OK);
     }
 

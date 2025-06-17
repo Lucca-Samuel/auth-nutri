@@ -45,21 +45,21 @@ public class SecurityConfigurations {
 
     private void  configurarPublicas(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth){
         auth
-            .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-            .requestMatchers(HttpMethod.POST, "/medicos/register").permitAll()
-            .requestMatchers(HttpMethod.POST, "/pacientes/register").permitAll();
+            .requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
     }
 
     private void configurarAdmin(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth){
         auth
-             .requestMatchers(HttpMethod.POST, "/medicos/admin/**").hasRole("ADMIN")
+             .requestMatchers(HttpMethod.POST, "/medico/admin/**").hasRole("ADMIN")
+             .requestMatchers(HttpMethod.POST, "/paciente/admin/**").hasRole("ADMIN")
              .requestMatchers("/admin/**").hasRole("ADMIN")
-             .requestMatchers(HttpMethod.GET, "/**").hasRole("ADMIN");
+             .requestMatchers(HttpMethod.GET, "admin/**").hasRole("ADMIN");
     }
 
     private void configurarPaciente(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth) {
         auth
-                .requestMatchers("/paciente/**").hasRole("PACIENTE");
+                //.requestMatchers("/paciente/**").hasRole("PACIENTE");
+                .requestMatchers("/paciente/**").permitAll();
     }
 
     private void configurarMedico(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth) {

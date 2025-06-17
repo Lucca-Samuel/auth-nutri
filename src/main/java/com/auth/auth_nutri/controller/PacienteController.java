@@ -2,6 +2,7 @@ package com.auth.auth_nutri.controller;
 
 import com.auth.auth_nutri.domain.Paciente;
 import com.auth.auth_nutri.service.PacienteService;
+import com.auth.auth_nutri.service.responses.PacienteResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pacientes")
+@RequestMapping("/paciente")
 public class PacienteController {
     @Autowired
     private PacienteService service;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Paciente>> findAll(){
-        List<Paciente> medicos = this.service.getAllPaciente();
+    public ResponseEntity<List<PacienteResponse>> findAll(){
+        List<PacienteResponse> medicos = this.service.getAllPaciente();
         return new ResponseEntity<>(medicos, HttpStatus.OK);
     }
 

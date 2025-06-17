@@ -27,22 +27,22 @@ public class Paciente extends User{
     @Enumerated(EnumType.STRING)
     private SexoEnum sexo;
 
-    public Paciente(PacienteDTO data){
-        this.setNome(data.nome());
-        this.setSobrenome(data.sobrenome());
-        this.setTelefone(data.telefone());
-        this.setEmail(data.email());
-        this.setEmailRecovery(data.emailRecovery());
-        this.setSenha(data.senha());
-        this.setEstado(data.estado());
-        this.setCidade(data.cidade());
-        this.setBairro(data.bairro());
-        this.setLogradouro(data.logradouro());
-        this.setNumCasa(data.numCasa());
-        this.setCep(data.cep());
-        this.setPeso(data.peso());
-        this.setAltura(data.altura());
-        this.setSexo(data.sexo());
+    public Paciente(String nome, String sobrenome, String telefone, String email, String emailRecovery, String senha, String estado, String cidade, String bairro, String logradouro, String numCasa, String cep, Double peso, Double altura, SexoEnum sexo){
+        this.setNome(nome);
+        this.setSobrenome(sobrenome);
+        this.setTelefone(telefone);
+        this.setEmail(email);
+        this.setEmailRecovery(emailRecovery);
+        this.setSenha(senha);
+        this.setEstado(estado);
+        this.setCidade(cidade);
+        this.setBairro(bairro);
+        this.setLogradouro(logradouro);
+        this.setNumCasa(numCasa);
+        this.setCep(cep);
+        this.setPeso(peso);
+        this.setAltura(altura);
+        this.setSexo(sexo);
         this.setRole(UserRole.PACIENTE);
     }
 

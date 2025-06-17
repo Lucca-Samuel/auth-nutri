@@ -1,11 +1,15 @@
 package com.auth.auth_nutri.service;
 
+import com.auth.auth_nutri.config.security.TokenService;
 import com.auth.auth_nutri.domain.Paciente;
 import com.auth.auth_nutri.domain.enums.SexoEnum;
 import com.auth.auth_nutri.dto.PacienteDTO;
 import com.auth.auth_nutri.repository.PacienteRepository;
+import com.auth.auth_nutri.service.responses.MedicoResponse;
+import com.auth.auth_nutri.service.responses.PacienteResponse;
 import jakarta.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,19 +19,46 @@ public class PacienteService {
     @Autowired
     private PacienteRepository repository;
 
-    public Paciente createPaciente(PacienteDTO data){
+    @Autowired
+    private TokenService tokenService;
+
+    public PacienteResponse createPaciente(PacienteDTO data){
 
         if(data.sexo() != SexoEnum.MASCULINO && data.sexo() != SexoEnum.FEMININO){
             throw new IllegalArgumentException("Sexo inválido: apenas MASCULINO ou FEMININO são permitidos.");
         }
 
-        Paciente newPaciente = new Paciente(data);
+        String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
+
+        Paciente newPaciente = new Paciente(
+                data.nome(),
+                data.sobrenome(),
+                data.telefone(),
+                data.email(),
+                data.emailRecovery(),
+                encryptedPassword,
+                data.estado(),
+                data.cidade(),
+                data.bairro(),
+                data.logradouro(),
+                data.numCasa(),
+                data.cep(),
+                data.peso(),
+                data.altura(),
+                data.sexo()
+        );
         this.save(newPaciente);
-        return newPaciente;
+
+        String token = this.tokenService.generateToken(newPaciente);
+
+        return PacienteResponse.from(newPaciente, token);
     }
 
-    public List<Paciente> getAllPaciente(){
-        return this.repository.findAll();
+    public List<PacienteResponse> getAllPaciente(){
+        List<Paciente> pacientes = this.repository.findAll();
+        return pacientes.stream()
+                .map(paciente -> PacienteResponse.from(paciente, null))
+                .toList();
     }
 
     public Paciente findPacienteById(String id) throws NoResultException{

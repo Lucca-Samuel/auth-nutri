@@ -1,6 +1,7 @@
 package com.auth.auth_nutri.service.responses;
 
 import com.auth.auth_nutri.domain.Medico;
+import jakarta.validation.constraints.NotNull;
 
 public record MedicoResponse(
         String nome,

@@ -1,5 +1,6 @@
 package com.auth.auth_nutri.exceptions;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,6 +11,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(SenhaIncorretaException.class)
     public ResponseEntity<String> handleSenhaIncorreta(SenhaIncorretaException e){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<String> handleTokenIsExpired(TokenExpiredException e){
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
     }
 

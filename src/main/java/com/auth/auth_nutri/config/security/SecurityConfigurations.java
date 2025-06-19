@@ -45,7 +45,9 @@ public class SecurityConfigurations {
 
     private void  configurarPublicas(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth){
         auth
-            .requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
+            .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/medico/pagination").permitAll()
+            .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll();
     }
 
     private void configurarAdmin(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth){

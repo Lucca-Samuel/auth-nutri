@@ -24,6 +24,11 @@ public class MedicoController {
        return new ResponseEntity<>(medicos, HttpStatus.OK);
     }
 
+    @GetMapping("/pagination")
+    public ResponseEntity<List<MedicoResponse>> findPagination(@RequestParam int pagina, @RequestParam int itens){
+        return ResponseEntity.ok(service.findPagination(pagina, itens));
+    }
+
     @GetMapping("/medicoId")
     public Medico findMedicoById(@RequestParam String id){
         Medico medico = this.service.findById(id);

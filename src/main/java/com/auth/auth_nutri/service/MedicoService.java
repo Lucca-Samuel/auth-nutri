@@ -10,6 +10,8 @@ import com.auth.auth_nutri.repository.MedicoRepository;
 import com.auth.auth_nutri.service.responses.MedicoResponse;
 import jakarta.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -68,6 +70,13 @@ public class MedicoService {
 
     public List<MedicoResponse> findAll() {
         List<Medico> medicos = this.repository.findAll();
+        return medicos.stream()
+                .map(medico -> MedicoResponse.from(medico, null))
+                .toList();
+    }
+
+    public List<MedicoResponse> findPagination(int pagina, int itens) {
+        Page<Medico> medicos = this.repository.findAll(PageRequest.of(pagina, itens));
         return medicos.stream()
                 .map(medico -> MedicoResponse.from(medico, null))
                 .toList();

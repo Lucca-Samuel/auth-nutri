@@ -8,6 +8,7 @@ import com.auth.auth_nutri.dto.MedicoDTO;
 import com.auth.auth_nutri.exceptions.SenhaIncorretaException;
 import com.auth.auth_nutri.repository.MedicoRepository;
 import com.auth.auth_nutri.service.responses.MedicoResponse;
+import com.auth.auth_nutri.service.responses.MedicoUpdateResponseAndRequest;
 import jakarta.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +33,16 @@ public class MedicoService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    /**
+     *Poderia ter feito uma classe de serviço para USER diretamente, utilizando de metodos abstratos, apenas os sobreescrevendo nas Services de Med & Pac.
+     * meyodos comuns como:
+     * findAll()
+     * findById(),
+     * Pagagination(),
+     * delete()
+     * findByEmail(),
+     */
 
 
     public MedicoResponse createMedico(MedicoDTO data){
@@ -82,13 +93,28 @@ public class MedicoService {
                 .toList();
     }
 
-    public Medico findById(String id){
-       return this.repository.findById(id).orElseThrow(() -> new NoResultException("Medico não encontrado"));
+    public MedicoUpdateResponseAndRequest findById(String id) throws NoResultException{
+        Medico medico = this.repository.findById(id)
+                .orElseThrow(() -> new NoResultException("Médico não encontrado"));
+
+        return MedicoUpdateResponseAndRequest.from(medico);
+       //return this.repository.findById(id).orElseThrow(() -> new NoResultException("Medico não encontrado"));
     }
 
     public Medico findByEmail(String email){
         return this.repository.findByEmail(email).orElseThrow(() -> new NoResultException("Médico não encontrado"));
     }
+
+    public MedicoUpdateResponseAndRequest updateMedico(String id, MedicoUpdateResponseAndRequest request){
+        Medico medico = this.internalFindById(id);
+
+        medico.medicoUpdateFromDTO(request);
+
+        this.save(medico);
+
+        return MedicoUpdateResponseAndRequest.from(medico);
+    }
+
 
     public MedicoResponse isExisting(String email){
         Medico medico = this.findByEmail(email);
@@ -102,6 +128,23 @@ public class MedicoService {
         }
         String token = this.tokenService.generateToken(medico);
         return LoginResponse.from(medico, token);
+    }
+
+    public String emailToId(String email){
+        Medico medico = this.findByEmail(email);
+        String id = medico.getId();
+        System.out.println("Id do service: " + id);
+        return id;
+    }
+
+    /**
+     * @param id
+     * @return
+     * @throws NoResultException
+     * Use only in internal ecossystem
+     */
+    public Medico internalFindById(String id) throws NoResultException{
+        return this.repository.findById(id).orElseThrow(() -> new NoResultException("Medico não encontrado"));
     }
 
 

@@ -2,6 +2,7 @@ package com.auth.auth_nutri.domain;
 
 import com.auth.auth_nutri.domain.rolesConfig.UserRole;
 import com.auth.auth_nutri.dto.MedicoUpdateDTO;
+import com.auth.auth_nutri.service.responses.MedicoUpdateResponseAndRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -60,11 +61,10 @@ public class Medico extends User{
         this.setRole(UserRole.MEDICO);
     }
 
-    public void medicoUpdateFromDTO(MedicoUpdateDTO data){
+    public void medicoUpdateFromDTO(MedicoUpdateResponseAndRequest data){
         if (data.nome() != null) this.setNome(data.nome());
         if (data.sobrenome() != null) this.setSobrenome(data.sobrenome());
         if (data.telefone() != null) this.setTelefone(data.telefone());
-        if (data.email() != null) this.setEmail(data.email());
         if (data.emailRecovery() != null) this.setEmailRecovery(data.emailRecovery());
         if (data.estado() != null) this.setEstado(data.estado());
         if (data.cidade() != null) this.setCidade(data.cidade());
@@ -72,6 +72,5 @@ public class Medico extends User{
         if (data.logradouro() != null) this.setLogradouro(data.logradouro());
         if (data.numCasa() != null) this.setNumCasa(data.numCasa());
         if (data.cep() != null) this.setCep(data.cep());
-        if (data.especialidade() != null) this.setEspecialidade(data.especialidade());
     }
 }

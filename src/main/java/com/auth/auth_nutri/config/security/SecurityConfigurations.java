@@ -66,7 +66,11 @@ public class SecurityConfigurations {
 
     private void configurarMedico(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth) {
         auth
-                .requestMatchers("/medico/**").hasRole("MEDICO");
+                .requestMatchers(HttpMethod.GET, "/medico/**").hasRole("MEDICO")
+                .requestMatchers(HttpMethod.POST, "/medico/**").hasRole("MEDICO")
+                .requestMatchers(HttpMethod.PATCH, "/medico/**").hasRole("MEDICO")
+                .requestMatchers(HttpMethod.DELETE, "/medico/**").hasRole("MEDICO")
+                .requestMatchers(HttpMethod.PUT, "/medico/**").hasRole("MEDICO");
     }
 
 

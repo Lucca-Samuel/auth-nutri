@@ -50,10 +50,8 @@ public class TokenService {
 
 
 
-    //public Instant expiratorTime(){
-      //  return LocalDateTime.now().plusHours(5).toInstant(ZoneOffset.of("-03:00"));
-    //}
     public Instant expiratorTime(){
-        return LocalDateTime.now().plusMinutes(1).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().plusHours(5).toInstant(ZoneOffset.of("-03:00"));
     }
+
 }

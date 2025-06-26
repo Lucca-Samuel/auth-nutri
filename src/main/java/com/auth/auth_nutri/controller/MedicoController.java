@@ -36,7 +36,7 @@ public class MedicoController {
         MedicoUpdateResponseAndRequest responseAndRequest = this.service.findById(id);
         return ResponseEntity.ok(responseAndRequest);
 
-        
+
         //Medico medico = this.service.findById(id);
         //return ResponseEntity.status(HttpStatus.OK).body(medico);
     }

@@ -5,7 +5,6 @@ import com.auth.auth_nutri.domain.Paciente;
 import com.auth.auth_nutri.domain.enums.SexoEnum;
 import com.auth.auth_nutri.dto.PacienteDTO;
 import com.auth.auth_nutri.repository.PacienteRepository;
-import com.auth.auth_nutri.service.responses.MedicoResponse;
 import com.auth.auth_nutri.service.responses.PacienteResponse;
 import jakarta.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +63,17 @@ public class PacienteService {
     public Paciente findPacienteById(String id) throws NoResultException{
         return this.repository.findById(id)
                 .orElseThrow(() -> new NoResultException("Usuário não encontrado"));
+    }
+
+    public Paciente findByEmail(String email){
+        return this.repository.findByEmail(email).orElseThrow(() -> new NoResultException("Médico não encontrado"));
+    }
+
+    public String emailToId(String email){
+        Paciente paciente = this.findByEmail(email);
+        String id = paciente.getId();
+        System.out.println("Id do service: " + id);
+        return id;
     }
 
 

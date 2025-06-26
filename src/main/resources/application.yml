@@ -1,6 +1,22 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
+
   application:
     name: auth-nutri
+
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    protocol: ${MAIL_PROTOCOL}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: ${MAIL_TLS_ENABLED}
 
   datasource:
     url: jdbc:mysql://localhost:3306/auth-nutri

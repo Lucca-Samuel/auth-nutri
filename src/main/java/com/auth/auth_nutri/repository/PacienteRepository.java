@@ -6,6 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 
-public interface PacienteRepository extends JpaRepository<Paciente, String> {
+public interface PacienteRepository extends UserReposiotry<Paciente> {
     Optional<Paciente> findByEmail(String email);
 }

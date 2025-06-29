@@ -133,7 +133,7 @@ public class MedicoService {
     public String emailToId(String email){
         Medico medico = this.findByEmail(email);
         String id = medico.getId();
-        System.out.println("Id do service: " + id);
+        //System.out.println("Id do service: " + id);
         return id;
     }
 
@@ -144,7 +144,9 @@ public class MedicoService {
      * Use only in internal ecossystem
      */
     public Medico internalFindById(String id) throws NoResultException{
-        return this.repository.findById(id).orElseThrow(() -> new NoResultException("Medico não encontrado"));
+            return this.repository.findById(id).orElseThrow(() -> {
+                System.out.println("Medico não encontrado com id: " + id);
+            return new NoResultException("Medico não encontrado");});
     }
 
 

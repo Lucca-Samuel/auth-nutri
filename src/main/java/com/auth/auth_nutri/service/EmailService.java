@@ -3,6 +3,7 @@ package com.auth.auth_nutri.service;
 import com.auth.auth_nutri.domain.Email;
 import com.auth.auth_nutri.domain.Medico;
 import com.auth.auth_nutri.domain.Paciente;
+import com.auth.auth_nutri.domain.enums.SexoEnum;
 import com.auth.auth_nutri.dto.EmailDTO;
 import com.auth.auth_nutri.repository.EmailRepository;
 import com.auth.auth_nutri.service.responses.EmailResponseDTO;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,24 @@ public class EmailService {
     public EmailResponseDTO createEmail(EmailDTO data){
         Medico medico = this.fromMedico(data.senderEmail());
         Paciente paciente = this.fromPaciente(data.receiverEmail());
+        SexoEnum sexoEnum = SexoEnum.MASCULINO;
+        /*Paciente paciente = new Paciente(
+                "João",
+                "Silva",
+                "11999999999",
+                "joao.silva@email.com",
+                "recupera@email.com",
+                "encryptedPassword",
+                "SP",
+                "São Paulo",
+                "Centro",
+                "Rua das Flores",
+                "123",
+                "01000-000",
+                75.5,
+                1.80,
+                sexoEnum
+        );*/
         Email newEmail = new Email(
             medico,
             paciente,
@@ -46,6 +66,8 @@ public class EmailService {
         );
 
         this.save(newEmail);
+
+        this.SendEmail(data);
 
         return EmailResponseDTO.from(newEmail);
     }
@@ -58,20 +80,40 @@ public class EmailService {
     }
 
 
+    /**
+     *
+     * public void enviarEmailSimples(String to, String subject, String body) {
+     *     SimpleMailMessage message = new SimpleMailMessage();
+     *     message.setTo(to);
+     *     message.setSubject(subject);
+     *     message.setText(body);
+     *     message.setFrom("seu-email@gmail.com");
+     *
+     *     mailSender.send(message);
+     * }
+     */
 
+    public void SendEmail(EmailDTO data){
 
+        SimpleMailMessage message = new SimpleMailMessage();
 
+        message.setTo(data.receiverEmail());
+        message.setSubject(data.subject());
+        message.setText(data.text());
+        message.setFrom(remetente);
 
+        javaMailSender.send(message);
 
+        System.out.println("Email enviado: " + message.toString());
 
-
-
+        //this.createEmail(data);
+    }
 
 
     private Medico fromMedico(String email){
         String id = this.medicoService.emailToId(email);
-        Medico medico = this.medicoService.internalFindById(id);
-        return medico;
+        System.out.println("ID LIMPO: [" + id + "] (" + id.length() + ")");
+        return this.medicoService.internalFindById(id);
     }
 
     private Paciente fromPaciente(String email){

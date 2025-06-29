@@ -66,7 +66,7 @@ public class PacienteService {
     }
 
     public Paciente findByEmail(String email){
-        return this.repository.findByEmail(email).orElseThrow(() -> new NoResultException("Médico não encontrado"));
+        return this.repository.findByEmail(email).orElseThrow(() -> new NoResultException("Paciente não encontrado"));
     }
 
     public String emailToId(String email){

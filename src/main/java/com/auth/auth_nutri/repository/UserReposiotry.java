@@ -6,6 +6,6 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.UUID;
 
-//@NoRepositoryBean
+@NoRepositoryBean
 public interface UserReposiotry<T> extends JpaRepository<T, String> {
 }

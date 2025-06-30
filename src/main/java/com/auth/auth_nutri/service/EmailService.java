@@ -1,5 +1,6 @@
 package com.auth.auth_nutri.service;
 
+import com.auth.auth_nutri.config.rabbitmq.email.EmailProducer;
 import com.auth.auth_nutri.domain.Email;
 import com.auth.auth_nutri.domain.Medico;
 import com.auth.auth_nutri.domain.Paciente;
@@ -30,6 +31,9 @@ public class EmailService {
 
     @Autowired
     private PacienteService pacienteService;
+
+    @Autowired
+    private EmailProducer emailProducer;
 
     @Value("${spring.mail.username}")
     private String remetente;
@@ -67,7 +71,7 @@ public class EmailService {
 
         this.save(newEmail);
 
-        this.SendEmail(data);
+        this.emailProducer.sendEmailToQueue(data);
 
         return EmailResponseDTO.from(newEmail);
     }
@@ -79,21 +83,7 @@ public class EmailService {
                 .toList();
     }
 
-
-    /**
-     *
-     * public void enviarEmailSimples(String to, String subject, String body) {
-     *     SimpleMailMessage message = new SimpleMailMessage();
-     *     message.setTo(to);
-     *     message.setSubject(subject);
-     *     message.setText(body);
-     *     message.setFrom("seu-email@gmail.com");
-     *
-     *     mailSender.send(message);
-     * }
-     */
-
-    public void SendEmail(EmailDTO data){
+    public void sendEmail(EmailDTO data){
 
         SimpleMailMessage message = new SimpleMailMessage();
 

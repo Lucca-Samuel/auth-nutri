@@ -21,8 +21,6 @@ public class EmailConsumer {
         emailService.sendEmail(emailDTO); // Aqui de fato é enviado o e-mail
         }catch (Exception e){
             System.err.println("Erro ao processar menssagem: " + e.getMessage());
-
-            throw e;
         }
     }
 }

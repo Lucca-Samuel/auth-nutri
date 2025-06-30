@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -37,12 +38,15 @@ public class Email {
     @Lob
     private String text;
 
-    public Email(Medico sender, Paciente receiver, String senderEmail, String receiverEmail, String subject, String text){
+    private List<String> pathFile;
+
+    public Email(Medico sender, Paciente receiver, String senderEmail, String receiverEmail, String subject, String text, List<String> pathFile){
         this.sender = sender;
         this.receiver = receiver;
         this.senderEmail = senderEmail;
         this.receiverEmail = receiverEmail;
         this.subject = subject;
         this.text = text;
+        this.pathFile = pathFile;
     }
 }

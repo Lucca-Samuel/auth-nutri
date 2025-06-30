@@ -8,16 +8,23 @@ import com.auth.auth_nutri.domain.enums.SexoEnum;
 import com.auth.auth_nutri.dto.EmailDTO;
 import com.auth.auth_nutri.repository.EmailRepository;
 import com.auth.auth_nutri.service.responses.EmailResponseDTO;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.List;
 
+@Slf4j
 @Service
 public class EmailService {
     @Autowired
@@ -66,7 +73,8 @@ public class EmailService {
             data.senderEmail(),
             data.receiverEmail(),
             data.subject(),
-            data.text()
+            data.text(),
+            data.pathFile()
         );
 
         this.save(newEmail);
@@ -83,20 +91,46 @@ public class EmailService {
                 .toList();
     }
 
-    public void sendEmail(EmailDTO data){
+    public void sendEmail(EmailDTO data) throws Exception{
 
-        SimpleMailMessage message = new SimpleMailMessage();
-
-        message.setTo(data.receiverEmail());
-        message.setSubject(data.subject());
-        message.setText(data.text());
-        message.setFrom(remetente);
-
-        javaMailSender.send(message);
-
-        System.out.println("Email enviado: " + message.toString());
+//        SimpleMailMessage message = new SimpleMailMessage();
+//
+//        message.setTo(data.receiverEmail());
+//        message.setSubject(data.subject());
+//        message.setText(data.text());
+//        message.setFrom(remetente);
+//
+//        javaMailSender.send(message);
+//
+//        System.out.println("Email enviado: " + message.toString());
 
         //this.createEmail(data);
+
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true); // true = multipart
+
+            helper.setTo(data.receiverEmail());
+            helper.setSubject(data.subject());
+            helper.setText(data.text(), true); // true para HTML
+            helper.setFrom(remetente);
+
+            for (String path : data.pathFile()) {  // Suponha que pathFiles() retorna uma List<String>
+                File file = new File(path);
+                if (file.exists() && file.canRead()) {
+                    FileSystemResource fileResource = new FileSystemResource(file);
+                    helper.addAttachment(file.getName(), fileResource);
+                } else {
+                    System.out.println("Arquivo inválido: " + path);
+                }
+            }
+
+            javaMailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace(); // ou logue com uma lib apropriada
+            System.out.println("Erro ao enviar e-mail: " + e.getMessage());
+        }
+
     }
 
 

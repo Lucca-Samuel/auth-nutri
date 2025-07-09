@@ -79,7 +79,6 @@ Utilizando `JavaMailSender`, com suporte a:
   "pathFile": ["C:/documentos/exame.pdf"]
 }
 
----
 
 ### 🛠️ Endpoints Principais
 

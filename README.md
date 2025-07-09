@@ -94,7 +94,6 @@ Utilizando `JavaMailSender`, com suporte a:
 | GET    | /email/send                                  | Envio de e-mail com ou sem anexo           | ✅ Sim        | MÉDICO          |
 | PUT    | /users/{id}                                  | Atualizar dados do usuário                 | ✅ Sim        | Dono / Admin    |
 | DELETE | /users/{id}                                  | Remover um usuário                         | ✅ Sim        | Dono / Admin    |
-|______________________________________________________________________________________________________________________________________|
 
 ---
 

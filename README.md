@@ -59,3 +59,12 @@ Este projeto pode ser utilizado como base para sistemas de **agendamento médico
 | DELETE | `/users/{id}`         | Remover usuário                         | ✅ Sim       | Dono/Admin|
 
 ---
+
+---
+
+## ▶️ Como Rodar o Projeto
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/Lucca-Samuel/auth-nutri.git
+

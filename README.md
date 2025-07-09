@@ -79,8 +79,9 @@ Utilizando `JavaMailSender`, com suporte a:
   "pathFile": ["C:/documentos/exame.pdf"]
 }
 
+---
 
-### 🛠️ Endpoints Principais
+## 🛠️ Endpoints Principais
 
 | Método | Rota                                      | Descrição                                  | Autenticação | Permissão      |
 |--------|-------------------------------------------|--------------------------------------------|--------------|----------------|
@@ -96,7 +97,7 @@ Utilizando `JavaMailSender`, com suporte a:
 
 ---
 
-### ⚙️ Configuração (application.properties)
+## ⚙️ Configuração (application.properties)
 
 A configuração da aplicação utiliza um arquivo application.yml com suporte a variáveis externas definidas no .env. Isso facilita a separação entre ambiente de desenvolvimento, produção e segurança dos dados sensíveis (como senhas e tokens).
 
@@ -157,7 +158,7 @@ auth-nutri:
 
 ---
 
-### 🌱 Arquivo .env
+## 🌱 Arquivo .env
 Crie um arquivo .env na raiz do projeto com as seguintes variáveis:
 
 ----------------------------------------------------------------
